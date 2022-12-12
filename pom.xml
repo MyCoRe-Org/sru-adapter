@@ -41,7 +41,6 @@
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
-    <!--
     <repository>
       <id>MyCoRe HQ</id>
       <url>http://artifactory.mycore.de/mycore-releases</url>
@@ -59,7 +58,6 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
-    -->
   </repositories>
 
   <pluginRepositories>
