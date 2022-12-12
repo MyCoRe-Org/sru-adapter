@@ -13,20 +13,8 @@ import org.mycore.sru.SRUConnector.RecordSchema;
  * @author shermann
  */
 public class SRUConnectorFactory {
-    /** Constant for GBV 
-     * @deprecated
-     * */
-    @Deprecated
-    public static final int GBV_SRU_CONNECTION_DB_21 = 1;
-
     /** Constant for GBV */
     public static final int GBV_SRU_STANDARD_CONNECTION = 4;
-
-    /** Constant for GBV (IKAR)
-     *  @deprecated use {@link SRUConnectorFactory#K10PLUS_IKAR_SRU_STANDARD_CONNECTION}
-     * */
-    @Deprecated
-    public static final int GBV_SRU_STANDARD_IKAR_CONNECTION = 41;
 
     /** Constant for IKAR*/
     public static final int K10PLUS_IKAR_SRU_STANDARD_CONNECTION = 81;
@@ -47,13 +35,11 @@ public class SRUConnectorFactory {
      *            the searchString for the connector e.g. &quot;ppn
      *            1234567890&quot; or any other valid query
      *
-     * @return the SRUConnector, please note that
-     *         {@link SRUConnector#getDocument()} will return a document with at
-     *         most one result hit inside
+     * @return the SRUConnector
      */
     public static SRUConnector getSRUConnector(int type, String query) {
         SRUConnector toReturn = null;
-        String url = null;
+        String url;
 
         switch (type) {
         /* gbv Verbundkatalog */
@@ -73,8 +59,7 @@ public class SRUConnectorFactory {
                 LOGGER.error(urlEx);
             }
             break;
-        /* new ikar sru interface */
-        case GBV_SRU_STANDARD_IKAR_CONNECTION:
+        /* ikar sru interface */
         case K10PLUS_IKAR_SRU_STANDARD_CONNECTION:
             try {
                 url = "https://sru.k10plus.de/ikar";
@@ -83,17 +68,6 @@ public class SRUConnectorFactory {
                 LOGGER.error(urlEx);
             }
             break;
-        /* gbv Verbundkatalog */
-        case GBV_SRU_CONNECTION_DB_21:
-            try {
-                url = "http://gso.gbv.de/sru/DB=2.1/";
-                toReturn = getSRUConnector(url, query);
-                toReturn.setRecordSchema(RecordSchema.PICA);
-            } catch (MalformedURLException urlEx) {
-                LOGGER.error(urlEx);
-            }
-            break;
-
         case KALLIOPE_SRU_STANDARD_CONNECTION:
             try {
                 LOGGER.info(
@@ -141,8 +115,6 @@ public class SRUConnectorFactory {
      */
     public static int typeByDatabase(String database) {
         switch (database) {
-        case "2.1":
-            return SRUConnectorFactory.GBV_SRU_CONNECTION_DB_21;
         case "ikar":
             return SRUConnectorFactory.K10PLUS_IKAR_SRU_STANDARD_CONNECTION;
         case "kalliope":
