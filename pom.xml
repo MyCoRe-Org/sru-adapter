@@ -6,18 +6,20 @@
   <parent>
     <artifactId>mycore-parent</artifactId>
     <groupId>org.mycore</groupId>
-    <version>48</version>
+    <version>49</version>
   </parent>
 
   <groupId>org.mycore.sru</groupId>
   <artifactId>sru-adapter</artifactId>
   <name>SRU Adapter</name>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <properties>
     <httpclient.version>4.5.13</httpclient.version>
+    <jaxon.version>2.0.0</jaxon.version>
     <jdom.version>2.0.6.1</jdom.version>
+    <junit.version>4.13.2</junit.version>
     <log4j.version>2.19.0</log4j.version>
     <scm-url>https://github.com/MyCoRe-Org/sru-adapter</scm-url>
   </properties>
@@ -77,12 +79,12 @@
     </pluginRepository>
   </pluginRepositories>
 
+
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
         <configuration>
           <release>11</release>
         </configuration>
@@ -126,8 +128,20 @@
       <groupId>org.jdom</groupId>
       <artifactId>jdom2</artifactId>
       <version>${jdom.version}</version>
-      <type>jar</type>
-      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <version>${jaxon.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
     </dependency>
 
   </dependencies>

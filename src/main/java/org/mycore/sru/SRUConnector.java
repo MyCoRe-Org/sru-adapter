@@ -25,15 +25,15 @@ import java.net.URL;
  * <BR/>
  *
  * <code>
- SRUConnector sru = new SRUConnector("http://services.d-nb.de/sru/");<BR>
- sru.setCatalog(SRUConnector.CATALOG_PND);<BR>
- sru.setVersion(SRUConnector.VERSION_1_1);<BR>
- sru.setOperation(SRUConnector.OPERATION_SEARCH_RETRIEVE);<BR>
- sru.setQuery(SRUConnector.IDN_EQUALS + "118555650");<BR>
- sru.setRecordSchema(SRUConnector.RECORD_SCHEMA_MARC21_XML);<BR>
- <BR></code> Invoking <code>{@link SRUConnector#getQueryURL()}</code> leads to
+ SRUConnector sru = new SRUConnector("https://services.dnb.de/sru");<br/>
+ sru.setCatalog(SRUConnector.CATALOG_DNB);<br/>
+ sru.setVersion(SRUConnector.VERSION_1_1);<br/>
+ sru.setOperation(SRUConnector.OPERATION_SEARCH_RETRIEVE);<br/>
+ sru.setQuery("WOE%3DGoethe");<br/>
+ sru.setRecordSchema(SRUConnector.RECORD_SCHEMA_MARC21_XML);<br/><br/>
+ </code> Invoking <code>{@link SRUConnector#getQueryURL()}</code> leads to
  * the following url:
- * <code> http://services.d-nb.de/sru/pnd?version=1.1&operation=searchRetrieve&query=IDN%3D118555650&recordSchema=MARC21-xml</code>
+ * <code>https://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=WOE%3DGoethe&recordSchema=MARC21-xml</code>
  *
  * @author shermann
  *
@@ -66,7 +66,7 @@ public class SRUConnector {
             case MARC_XML:
                 return "marcxml";
             case MARC21:
-                return "marc21";
+                return "MARC21-xml";
             case DUBLIN_CORE:
                 return "oai_dc";
             case PICA:
