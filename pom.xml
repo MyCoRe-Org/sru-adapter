@@ -6,7 +6,7 @@
   <parent>
     <artifactId>mycore-parent</artifactId>
     <groupId>org.mycore</groupId>
-    <version>49</version>
+    <version>48</version>
   </parent>
 
   <groupId>org.mycore.sru</groupId>
