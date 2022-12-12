@@ -25,7 +25,8 @@
   </properties>
 
   <scm>
-    <connection>git@github.com:MyCoRe-Org/sru-adapter.git</connection>
+    <connection>scm:git@github.com:MyCoRe-Org/sru-adapter.git</connection>
+    <developerConnection>scm:git@github.com:MyCoRe-Org/sru-adapter.git</developerConnection>
     <url>${scm-url}</url>
   </scm>
 
