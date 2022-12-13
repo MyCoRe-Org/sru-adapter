@@ -38,9 +38,9 @@ public class SRUResultDocumentAnalyzer {
     }
 
     /**
-     * @return
+     * @return the message from remote
      */
-    public String getDiagnostics() throws Exception {
+    public String getDiagnostics() {
         if (source == null) {
             return null;
         }

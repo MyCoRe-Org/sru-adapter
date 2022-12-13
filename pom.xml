@@ -4,25 +4,16 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>mycore-parent</artifactId>
     <groupId>org.mycore</groupId>
+    <artifactId>mycore-parent</artifactId>
     <version>48</version>
   </parent>
 
   <groupId>org.mycore.sru</groupId>
   <artifactId>sru-adapter</artifactId>
-  <name>SRU Adapter</name>
   <version>0.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
-
-  <properties>
-    <httpclient.version>4.5.13</httpclient.version>
-    <jaxon.version>2.0.0</jaxon.version>
-    <jdom.version>2.0.6.1</jdom.version>
-    <junit.version>4.13.2</junit.version>
-    <log4j.version>2.19.0</log4j.version>
-    <scm-url>https://github.com/MyCoRe-Org/sru-adapter</scm-url>
-  </properties>
+  <name>SRU Adapter</name>
 
   <scm>
     <connection>scm:git@github.com:MyCoRe-Org/sru-adapter.git</connection>
@@ -30,56 +21,15 @@
     <url>${scm-url}</url>
   </scm>
 
-  <repositories>
-    <repository>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-    <repository>
-      <id>MyCoRe HQ</id>
-      <url>http://artifactory.mycore.de/mycore-releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>MyCoRe HQ Snapshots</id>
-      <url>http://artifactory.mycore.de/mycore-snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-
-  <pluginRepositories>
-    <pluginRepository>
-      <id>MyCoRe HQ</id>
-      <url>http://artifactory.mycore.de/mycore-releases</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>MyCoRe HQ Snapshots</id>
-      <url>http://artifactory.mycore.de/mycore-snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
-
+  <properties>
+    <httpclient.version>4.5.13</httpclient.version>
+    <httpcore.version>4.4.15</httpcore.version>
+    <jaxon.version>2.0.0</jaxon.version>
+    <jdom.version>2.0.6.1</jdom.version>
+    <junit.version>4.13.2</junit.version>
+    <log4j.version>2.19.0</log4j.version>
+    <scm-url>https://github.com/MyCoRe-Org/sru-adapter</scm-url>
+  </properties>
 
   <build>
     <plugins>
@@ -93,18 +43,55 @@
     </plugins>
   </build>
 
-  <developers>
-    <developer>
-      <id>mcrsherm</id>
-      <name>Silvio Hermann</name>
-      <organization>Friedrich-Schiller-Universität Jena, Thüringer Universitäts- und Landesbibliothek</organization>
-      <organizationUrl>http://www.thulb.uni-jena.de/</organizationUrl>
-      <timezone>+1</timezone>
-      <roles>
-        <role>developer</role>
-      </roles>
-    </developer>
-  </developers>
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
+    </pluginRepository>
+    <pluginRepository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+    </pluginRepository>
+  </pluginRepositories>
 
   <dependencies>
     <dependency>
@@ -112,38 +99,45 @@
       <artifactId>httpclient</artifactId>
       <version>${httpclient.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <version>${httpcore.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
+      <artifactId>log4j-api</artifactId>
       <version>${log4j.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-web</artifactId>
-      <version>${log4j.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>org.jdom</groupId>
       <artifactId>jdom2</artifactId>
       <version>${jdom.version}</version>
     </dependency>
-
     <dependency>
       <groupId>jaxen</groupId>
       <artifactId>jaxen</artifactId>
       <version>${jaxon.version}</version>
-      <scope>provided</scope>
+      <scope>runtime</scope>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
+
+  <developers>
+    <developer>
+      <id>mcrsherm</id>
+      <name>Silvio Hermann</name>
+      <organization>Friedrich-Schiller-Universität Jena, Thüringer Universitäts- und Landesbibliothek</organization>
+      <organizationUrl>https://www.thulb.uni-jena.de/</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>+1</timezone>
+    </developer>
+  </developers>
 </project>

@@ -95,7 +95,7 @@ public class SRUConnectorFactory {
      *            already
      * @return a preconfigured {@link SRUConnector} where maximum records and
      *         startRecord are set to 1, recordSchema is {@link RecordSchema#PICA_XML}
-     * @throws MalformedURLException
+     * @throws MalformedURLException when the given url is malformed
      */
     public static SRUConnector getSRUConnector(String url, String query) throws MalformedURLException {
         SRUConnector sru = new SRUConnector(url);
@@ -110,8 +110,9 @@ public class SRUConnectorFactory {
     }
 
     /**
-     * @param database
-     * @return
+     * @param database the database
+     *
+     * @return the key for the given database
      */
     public static int typeByDatabase(String database) {
         switch (database) {
