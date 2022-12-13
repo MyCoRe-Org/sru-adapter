@@ -3,6 +3,10 @@
  */
 package org.mycore.sru;
 
+import java.net.ConnectException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -12,28 +16,24 @@ import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
 
-import java.net.ConnectException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
- * This class represents a SRU interface. It provides methods to set parameters
- * needed to communicate with a SRU interface. See the following example to get
+ * This class represents an SRU interface. It provides methods to set parameters
+ * needed to communicate with an SRU interface. See the following example to get
  * an idea of how to use this connector or visit <a
- * href="http://www.dnb.de/service/zd/sru.htm"
- * >http://www.dnb.de/service/zd/sru.htm</a><BR/>
- * <BR/>
+ * href="http://www.dnb.de/service/zd/sru.htm">http://www.dnb.de/service/zd/sru.htm</a>
  *
- * <code>
- SRUConnector sru = new SRUConnector("https://services.dnb.de/sru");<br/>
- sru.setCatalog(SRUConnector.CATALOG_DNB);<br/>
- sru.setVersion(SRUConnector.VERSION_1_1);<br/>
- sru.setOperation(SRUConnector.OPERATION_SEARCH_RETRIEVE);<br/>
- sru.setQuery("WOE%3DGoethe");<br/>
- sru.setRecordSchema(SRUConnector.RECORD_SCHEMA_MARC21_XML);<br/><br/>
- </code> Invoking <code>{@link SRUConnector#getQueryURL()}</code> leads to
+ * <pre>
+ * SRUConnector sru = new SRUConnector("https://services.dnb.de/sru");
+ * sru.setCatalog(SRUConnector.CATALOG_DNB);
+ * sru.setVersion(SRUConnector.VERSION_1_1);
+ * sru.setOperation(SRUConnector.OPERATION_SEARCH_RETRIEVE);
+ * sru.setQuery("WOE%3DGoethe");
+ * sru.setRecordSchema(SRUConnector.RECORD_SCHEMA_MARC21_XML);
+ * </pre>
+ *
+ * Invoking <code>{@link SRUConnector#getQueryURL()}</code> leads to
  * the following url:
- * <code>https://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=WOE%3DGoethe&recordSchema=MARC21-xml</code>
+ * <pre>https://services.dnb.de/sru/dnb?version=1.1&amp;operation=searchRetrieve&amp;query=WOE%3DGoethe&amp;recordSchema=MARC21-xml</pre>
  *
  * @author shermann
  *
@@ -116,6 +116,8 @@ public class SRUConnector {
     /**
      * @param url
      *            the url of the sru interface, should terminate with a backslash
+     *
+     * @throws MalformedURLException if the provided url is null
      */
     public SRUConnector(URL url) throws MalformedURLException {
         if (url != null) {
@@ -130,6 +132,8 @@ public class SRUConnector {
     /**
      * @param url
      *            the url of the sru interface, should terminate with a backslash
+     *
+     * @throws MalformedURLException if the provided url is null or malformed
      */
     public SRUConnector(String url) throws MalformedURLException {
         this(new URL(url));
@@ -280,7 +284,8 @@ public class SRUConnector {
      * interface.
      *
      * @return the document as the result of the query, may be null
-     * @throws ConnectException
+     *
+     * @throws ConnectException when the remote server cannot be reached
      * */
     public Document getDocument() throws ConnectException {
         if (!isValidConfig()) {
@@ -302,12 +307,18 @@ public class SRUConnector {
         return document;
     }
 
-    /** Sets the internal record packing for the query*/
+    /** Sets the internal record packing for the query
+     *
+     * @param p one of {@link RecordPacking}
+     * */
     public void setRecordPacking(RecordPacking p) {
         this.recordPacking = p;
     }
 
-    /** Returns the record packing to be used when executing the query */
+    /** Returns the record packing to be used when executing the query
+     *
+     * @return the used {@link RecordPacking}
+     * */
     public RecordPacking getRecordPacking() {
         return this.recordPacking;
     }
