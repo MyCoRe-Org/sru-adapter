@@ -19,3 +19,7 @@ Invoking
 ```SRUConnector#getQueryURL()```
 leads to the following url
 ```https://services.dnb.de/sru/dnb?version=1.1&operation=searchRetrieve&query=WOE%3DGoethe&recordSchema=MARC21-xml```
+
+### Requirements
+
+- Java 17 
