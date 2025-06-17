@@ -3,10 +3,6 @@
  */
 package org.mycore.sru;
 
-import java.net.ConnectException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -15,6 +11,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.input.SAXBuilder;
+
+import java.net.ConnectException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * This class represents an SRU interface. It provides methods to set parameters
@@ -131,12 +133,12 @@ public class SRUConnector {
 
     /**
      * @param url
-     *            the url of the sru interface, should terminate with a backslash
+     *            the url of the sru interface should terminate with a backslash
      *
      * @throws MalformedURLException if the provided url is null or malformed
      */
-    public SRUConnector(String url) throws MalformedURLException {
-        this(new URL(url));
+    public SRUConnector(String url) throws MalformedURLException, URISyntaxException {
+        this(new URI(url).toURL());
     }
 
     /**
@@ -247,7 +249,7 @@ public class SRUConnector {
      * @throws MalformedURLException if {@link #setSRUInterfaceUrl(URL)} was called with illegal argument
      * @see SRUConnector#isValidConfig()
      */
-    public URL getQueryURL() throws MalformedURLException {
+    public URL getQueryURL() throws MalformedURLException, URISyntaxException {
         if (!isValidConfig()) {
             return null;
         }
@@ -276,7 +278,7 @@ public class SRUConnector {
         if (startRecord > 0) {
             builder.append("&startRecord=" + startRecord);
         }
-        return new URL(builder.toString());
+        return new URI(builder.toString()).toURL();
     }
 
     /**

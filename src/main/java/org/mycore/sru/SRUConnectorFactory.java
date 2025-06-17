@@ -3,11 +3,13 @@
  */
 package org.mycore.sru;
 
-import java.net.MalformedURLException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mycore.sru.SRUConnector.RecordSchema;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * @author shermann
@@ -42,46 +44,46 @@ public class SRUConnectorFactory {
         String url;
 
         switch (type) {
-        /* gbv Verbundkatalog */
-        case GBV_SRU_STANDARD_CONNECTION:
-            try {
-                url = "http://sru.gbv.de/gbvcat";
-                toReturn = getSRUConnector(url, query);
-            } catch (MalformedURLException urlEx) {
-                LOGGER.error(urlEx);
-            }
-            break;
-        case K10PLUS_SRU_STANDARD_CONNECTION:
-            try {
-                url = "https://sru.k10plus.de/gbvcat!rec=*";
-                toReturn = getSRUConnector(url, query);
-            } catch (MalformedURLException urlEx) {
-                LOGGER.error(urlEx);
-            }
-            break;
-        /* ikar sru interface */
-        case K10PLUS_IKAR_SRU_STANDARD_CONNECTION:
-            try {
-                url = "https://sru.k10plus.de/ikar";
-                toReturn = getSRUConnector(url, query);
-            } catch (MalformedURLException urlEx) {
-                LOGGER.error(urlEx);
-            }
-            break;
-        case KALLIOPE_SRU_STANDARD_CONNECTION:
-            try {
-                LOGGER.info(
-                    "Creating SRUConnector for Kalliope. You may need special access rights in order to retrieve records through this SRU interface");
-                url = "https://kalliope-verbund.info/sru";
-                toReturn = getSRUConnector(url, query);
-                toReturn.setRecordSchema(RecordSchema.MODS);
-            } catch (MalformedURLException urlEx) {
-                LOGGER.error(urlEx);
-            }
-            break;
-        default:
-            LOGGER.warn("Could not create SRUConnector for type {}", type);
-            return null;
+            /* gbv Verbundkatalog */
+            case GBV_SRU_STANDARD_CONNECTION:
+                try {
+                    url = "http://sru.gbv.de/gbvcat";
+                    toReturn = getSRUConnector(url, query);
+                } catch (MalformedURLException urlEx) {
+                    LOGGER.error(urlEx);
+                }
+                break;
+            case K10PLUS_SRU_STANDARD_CONNECTION:
+                try {
+                    url = "https://sru.k10plus.de/gbvcat!rec=*";
+                    toReturn = getSRUConnector(url, query);
+                } catch (MalformedURLException urlEx) {
+                    LOGGER.error(urlEx);
+                }
+                break;
+            /* ikar sru interface */
+            case K10PLUS_IKAR_SRU_STANDARD_CONNECTION:
+                try {
+                    url = "https://sru.k10plus.de/ikar";
+                    toReturn = getSRUConnector(url, query);
+                } catch (MalformedURLException urlEx) {
+                    LOGGER.error(urlEx);
+                }
+                break;
+            case KALLIOPE_SRU_STANDARD_CONNECTION:
+                try {
+                    LOGGER.info(
+                        "Creating SRUConnector for Kalliope. You may need special access rights in order to retrieve records through this SRU interface");
+                    url = "https://kalliope-verbund.info/sru";
+                    toReturn = getSRUConnector(url, query);
+                    toReturn.setRecordSchema(RecordSchema.MODS);
+                } catch (MalformedURLException urlEx) {
+                    LOGGER.error(urlEx);
+                }
+                break;
+            default:
+                LOGGER.warn("Could not create SRUConnector for type {}", type);
+                return null;
         }
 
         return toReturn;
@@ -98,7 +100,12 @@ public class SRUConnectorFactory {
      * @throws MalformedURLException when the given url is malformed
      */
     public static SRUConnector getSRUConnector(String url, String query) throws MalformedURLException {
-        SRUConnector sru = new SRUConnector(url);
+        SRUConnector sru = null;
+        try {
+            sru = new SRUConnector(new URI(url).toURL());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         sru.setVersion(SRUConnector.VERSION_1_1);
         sru.setOperation(SRUConnector.Operation.searchRetrieve);
         sru.setRecordSchema(SRUConnector.RecordSchema.PICA_XML);
@@ -116,15 +123,15 @@ public class SRUConnectorFactory {
      */
     public static int typeByDatabase(String database) {
         switch (database) {
-        case "ikar":
-            return SRUConnectorFactory.K10PLUS_IKAR_SRU_STANDARD_CONNECTION;
-        case "kalliope":
-            return SRUConnectorFactory.KALLIOPE_SRU_STANDARD_CONNECTION;
-        case "k10plus":
-            return SRUConnectorFactory.K10PLUS_SRU_STANDARD_CONNECTION;
-        default:
-            LOGGER.info("Will return type for kalliope sru connection");
-            return SRUConnectorFactory.KALLIOPE_SRU_STANDARD_CONNECTION;
+            case "ikar":
+                return SRUConnectorFactory.K10PLUS_IKAR_SRU_STANDARD_CONNECTION;
+            case "kalliope":
+                return SRUConnectorFactory.KALLIOPE_SRU_STANDARD_CONNECTION;
+            case "k10plus":
+                return SRUConnectorFactory.K10PLUS_SRU_STANDARD_CONNECTION;
+            default:
+                LOGGER.info("Will return type for kalliope sru connection");
+                return SRUConnectorFactory.KALLIOPE_SRU_STANDARD_CONNECTION;
         }
     }
 }
